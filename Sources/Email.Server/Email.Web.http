@@ -1,0 +1,6 @@
+@Email.Web_HostAddress = http://localhost:5079
+
+GET {{Email.Web_HostAddress}}/docs/
+Accept: application/json
+
+###
