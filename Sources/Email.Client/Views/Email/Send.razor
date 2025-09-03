@@ -1,0 +1,301 @@
+﻿@page "/send-email"
+
+@using System.Net.Http.Json
+@using System.Text
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.JSInterop
+@inject HttpClient Http
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+
+<PageTitle>New message</PageTitle>
+
+<style>
+  .compose-root { min-height:100vh; }
+  .compose-wrap { max-width: 1080px; margin: 32px auto; padding: 0 16px; }
+  .sidebar-paper, .content-paper { border-radius:14px; }
+  .sidebar-paper { padding: 24px; }
+  .content-paper { padding: 0; overflow: hidden; }
+  .toolbar { padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,.06); }
+  .body { padding: 24px;}
+  .field-row { display:flex; align-items:flex-start; gap:12px; padding: 6px 0; }
+  .field-label { width: 84px; min-width:84px; color:#6b7280; padding-top:.65rem; }
+  .chips-preview { margin-top:6px; }
+  .section + .section { margin-top: 24px; }
+  .section-title { color:#374151; font-weight:600; margin: 8px 0 8px; }
+  .subtle { color:#6b7280; }
+  .preview-frame { width:100%; height:68vh; border:1px solid rgba(0,0,0,.1); padding: 15px; border-radius:8px; }
+</style>
+
+<div class="compose-root">
+  <div class="compose-wrap">
+    <MudGrid GutterSize="32">
+      <!-- Sidebar -->
+      <MudItem xs="12" md="4">
+        <MudPaper Elevation="1" Class="sidebar-paper">
+          <MudText Typo="Typo.h6" Class="mb-2">Account</MudText>
+          <MudText Typo="Typo.body2" Class="subtle mb-3">Choose provider and credentials. Defaults to <b>auto</b>.</MudText>
+
+          <MudStack Spacing="2">
+            <MudSelect T="string" Label="Provider" @bind-Value="_provider" Variant="Variant.Outlined" Dense="true">
+              @* <MudSelectItem Value="auto">auto (smart)</MudSelectItem>
+              <MudSelectItem Value="gmail">gmail</MudSelectItem>
+              <MudSelectItem Value="outlook">outlook</MudSelectItem> *@
+            </MudSelect>
+
+            <MudTextField T="string" @bind-Value="_senderEmail" Label="From" Variant="Variant.Outlined" Dense="true" Required="true" />
+
+            <MudTextField T="string" @bind-Value="_senderPassword"
+                          Label="Password / App Password"
+                          Variant="Variant.Outlined" Dense="true"
+                          InputType="InputType.Password"
+                          HelperText="Gmail: App Password • Outlook: password or leave empty if Graph is configured" />
+
+            <MudTextField T="string" @bind-Value="_senderOAuthAccessToken"
+                          Label="(Optional) Gmail OAuth Access Token"
+                          Variant="Variant.Outlined" Dense="true" Lines="1"
+                          HelperText="If provided, Gmail uses XOAUTH2" />
+
+            <MudSwitch T="bool" @bind-Checked="_saveToSent" Color="Color.Primary">Save to Sent (Graph)</MudSwitch>
+          </MudStack>
+        </MudPaper>
+      </MudItem>
+
+      <!-- Content -->
+      <MudItem xs="12" md="8">
+        <MudPaper Elevation="1" Class="content-paper">
+          <div class="toolbar">
+            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1">
+              <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="SendAsync" Disabled="_busy" Class="mr-2">
+                @(_busy ? "Sending…" : "Send")
+              </MudButton>
+              <MudIconButton Icon="@Icons.Material.Filled.AttachFile" Disabled="_busy" Title="Attach (upload HTML below)" />
+              <MudIconButton Icon="@Icons.Material.Filled.DeleteOutline" Disabled="_busy" Title="Discard" OnClick="ResetForm" />
+              <MudSpacer />
+              <MudText Class="subtle">New message</MudText>
+            </MudStack>
+          </div>
+
+          <div class="body">
+            <!-- Recipients -->
+            <div class="section">
+              <MudText Typo="Typo.subtitle2" Class="section-title">Recipients</MudText>
+
+              <div class="field-row">
+                <div class="field-label">To</div>
+                <div style="flex:1">
+                  <MudTextField T="string" @bind-Value="_toText"
+                                Placeholder="Add recipients (comma, semicolon, or newline)"
+                                Variant="Variant.Outlined" Lines="1" />
+                  <div class="chips-preview">
+                    @foreach (var r in SplitEmails(_toText))
+                    {
+                      <MudChip T="string" Size="Size.Small" Class="mr-1 mb-1" Color="Color.Default" Variant="Variant.Outlined">@r</MudChip>
+                    }
+                  </div>
+                </div>
+                <MudButton Variant="Variant.Outlined" Color="Color.Default" Size="Size.Small"
+                           OnClick="@(() => _showCcBcc = !_showCcBcc)">
+                  @(_showCcBcc ? "Hide Cc/Bcc" : "Show Cc/Bcc")
+                </MudButton>
+              </div>
+
+              @if (_showCcBcc)
+              {
+                <div class="field-row">
+                  <div class="field-label">Cc</div>
+                  <div style="flex:1">
+                    <MudTextField T="string" @bind-Value="_ccText" Placeholder="Add Cc recipients" Variant="Variant.Outlined" Lines="1" />
+                    <div class="chips-preview">
+                      @foreach (var r in SplitEmails(_ccText))
+                      { <MudChip T="string" Size="Size.Small" Class="mr-1 mb-1" Color="Color.Default" Variant="Variant.Outlined">@r</MudChip> }
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field-row">
+                  <div class="field-label">Bcc</div>
+                  <div style="flex:1">
+                    <MudTextField T="string" @bind-Value="_bccText" Placeholder="Add Bcc recipients" Variant="Variant.Outlined" Lines="1" />
+                    <div class="chips-preview">
+                      @foreach (var r in SplitEmails(_bccText))
+                      { <MudChip T="string" Size="Size.Small" Class="mr-1 mb-1" Color="Color.Default" Variant="Variant.Outlined">@r</MudChip> }
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <div class="field-row">
+                <div class="field-label">Reply-To</div>
+                <div style="flex:1">
+                  <MudTextField T="string" @bind-Value="_replyTo" Placeholder="Optional" Variant="Variant.Outlined" Lines="1" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Message meta -->
+            <div class="section">
+              <MudText Typo="Typo.subtitle2" Class="section-title">Message</MudText>
+
+              <div class="field-row">
+                <div class="field-label">Subject</div>
+                <div style="flex:1">
+                  <MudTextField T="string" @bind-Value="_subject" Placeholder="Add a subject" Variant="Variant.Outlined" Lines="1" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Content & Preview -->
+            <div class="section">
+              <MudTabs Rounded="true" Elevation="0">
+                <MudTabPanel Text="HTML">
+                  <MudTextField T="string" @bind-Value="_htmlBody"
+                                Immediate="true"
+                                Placeholder="Paste your HTML here"
+                                Variant="Variant.Outlined"
+                                Lines="16" MaxLines="36" />
+                  <MudText Class="subtle mt-1">Tip: For long content, use the “Upload HTML → Base64” tab to avoid JSON escaping issues.</MudText>
+                </MudTabPanel>
+
+                <MudTabPanel Text="Upload HTML → Base64">
+                  <MudStack Spacing="2">
+                    <InputFile OnChange="OnHtmlFileSelected" accept=".html,.htm,.txt" />
+                    @if (!string.IsNullOrWhiteSpace(_htmlBodyBase64))
+                    {
+                      <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">
+                        HTML file loaded and converted to Base64 (length: @_htmlBodyBase64.Length chars)
+                      </MudAlert>
+                    }
+                  </MudStack>
+                </MudTabPanel>
+
+                <MudTabPanel Text="Preview">
+                  @if (string.IsNullOrWhiteSpace(PreviewHtml))
+                  {
+                    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">Provide HTML in the other tabs to preview.</MudAlert>
+                  }
+                  else
+                  {
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Class="mb-2">
+                      <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="OpenPreviewInNewTab">Open in new tab</MudButton>
+                      <MudText Class="subtle ml-2">Live preview below</MudText>
+                    </MudStack>
+                    <iframe class="preview-frame" srcdoc="@PreviewHtml"></iframe>
+                  }
+                </MudTabPanel>
+              </MudTabs>
+            </div>
+
+            @if (_busy)
+            {
+              <div class="section"><MudProgressLinear Indeterminate="true" Color="Color.Primary" /></div>
+            }
+          </div>
+        </MudPaper>
+      </MudItem>
+    </MudGrid>
+  </div>
+</div>
+
+@code {
+  private bool _busy;
+  private bool _showCcBcc;
+
+  private string _provider = "auto";
+  private string _senderEmail = string.Empty;
+  private string? _senderPassword;
+  private string? _senderOAuthAccessToken;
+  private bool _saveToSent = true;
+
+  private string _toText = string.Empty;
+  private string _ccText = string.Empty;
+  private string _bccText = string.Empty;
+  private string? _replyTo;
+
+  private string _subject = string.Empty;
+  private string _htmlBody = string.Empty;
+  private string _htmlBodyBase64 = string.Empty;
+
+  private string PreviewHtml =>
+      !string.IsNullOrWhiteSpace(_htmlBodyBase64)
+        ? Encoding.UTF8.GetString(Convert.FromBase64String(_htmlBodyBase64))
+        : (_htmlBody ?? string.Empty);
+
+  private async Task OpenPreviewInNewTab()
+  {
+    if (string.IsNullOrWhiteSpace(PreviewHtml)) return;
+    var dataUrl = "data:text/html;charset=utf-8," + Uri.EscapeDataString(PreviewHtml);
+    await JS.InvokeVoidAsync("open", dataUrl, "_blank");
+  }
+
+  private async Task OnHtmlFileSelected(InputFileChangeEventArgs e)
+  {
+    try
+    {
+      var file = e.File; if (file is null) return;
+      using var stream = file.OpenReadStream(maxAllowedSize: 5 * 1024 * 1024);
+      using var ms = new MemoryStream(); await stream.CopyToAsync(ms);
+      _htmlBodyBase64 = Convert.ToBase64String(ms.ToArray());
+      Snackbar.Add($"Loaded: {file.Name} ({file.Size} bytes)", Severity.Success);
+    }
+    catch (Exception ex)
+    { Snackbar.Add($"File load failed: {ex.Message}", Severity.Error); }
+  }
+
+  private static List<string> SplitEmails(string raw)
+  {
+    if (string.IsNullOrWhiteSpace(raw)) return new();
+    var parts = raw.Replace("\r", "\n").Split(new[] { '\n', ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+    return parts.Select(p => p.Trim()).Where(p => !string.IsNullOrWhiteSpace(p)).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+  }
+
+  private async Task SendAsync()
+  {
+    var toList = SplitEmails(_toText);
+    if (string.IsNullOrWhiteSpace(_senderEmail)) { Snackbar.Add("From is required.", Severity.Warning); return; }
+    if (toList.Count == 0) { Snackbar.Add("Add at least one recipient.", Severity.Warning); return; }
+    if (string.IsNullOrWhiteSpace(_htmlBody) && string.IsNullOrWhiteSpace(_htmlBodyBase64)) { Snackbar.Add("Provide HTML (paste or upload).", Severity.Warning); return; }
+
+    var payload = new Dictionary<string, object?>
+    {
+      ["provider"] = _provider,
+      ["senderEmail"] = _senderEmail,
+      ["senderPassword"] = string.IsNullOrWhiteSpace(_senderPassword) ? null : _senderPassword,
+      ["senderOAuthAccessToken"] = string.IsNullOrWhiteSpace(_senderOAuthAccessToken) ? null : _senderOAuthAccessToken,
+      ["to"] = toList,
+      ["cc"] = SplitEmails(_ccText),
+      ["bcc"] = SplitEmails(_bccText),
+      ["replyTo"] = string.IsNullOrWhiteSpace(_replyTo) ? null : _replyTo,
+      ["subject"] = string.IsNullOrWhiteSpace(_subject) ? "(no subject)" : _subject,
+      ["htmlBodyBase64"] = string.IsNullOrWhiteSpace(_htmlBodyBase64) ? null : _htmlBodyBase64,
+      ["htmlBody"] = string.IsNullOrWhiteSpace(_htmlBodyBase64) ? (_htmlBody ?? "") : null,
+      ["saveToSent"] = _saveToSent
+    };
+
+    try
+    {
+      _busy = true;
+      var res = await Http.PostAsJsonAsync("api/mail/send-smart", payload);
+      var json = await res.Content.ReadFromJsonAsync<Dictionary<string, object>>();
+
+      if (res.IsSuccessStatusCode && json is not null && json.TryGetValue("ok", out var ok) && ok?.ToString() == "True")
+        Snackbar.Add("Sent ✔", Severity.Success);
+      else
+      {
+        var err = json is not null && json.TryGetValue("error", out var e) ? e?.ToString() : res.ReasonPhrase;
+        var code = json is not null && json.TryGetValue("code", out var c) ? c?.ToString() : "UNKNOWN";
+        Snackbar.Add($"Failed: {code} — {err}", Severity.Error);
+      }
+    }
+    catch (Exception ex) { Snackbar.Add($"Unexpected error: {ex.Message}", Severity.Error); }
+    finally { _busy = false; }
+  }
+
+  private void ResetForm()
+  {
+    _provider = "auto"; _senderEmail = string.Empty; _senderPassword = null; _senderOAuthAccessToken = null; _saveToSent = true;
+    _toText = string.Empty; _ccText = string.Empty; _bccText = string.Empty; _replyTo = null;
+    _subject = string.Empty; _htmlBody = string.Empty; _htmlBodyBase64 = string.Empty; _showCcBcc = false;
+    Snackbar.Add("Cleared.", Severity.Info);
+  }
+}

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Email.Client.Controllers;
+namespace Email.Web.Controllers;
 
 public class SharedController : Controller
 {

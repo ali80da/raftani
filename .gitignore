@@ -1,0 +1,92 @@
+# --- Visual Studio user data ---
+.vs/
+*.suo
+*.user
+*.userosscache
+*.rsuser
+*.sln.docstates
+
+# --- Build & intermediate outputs ---
+[Bb]in/
+[Oo]bj/
+[Bb]ld/
+[Ll]og/
+Logs/
+*.log
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+[Dd]ebug*/
+[Rr]elease*/
+[Rr]eleases*/
+
+# --- Publish artifacts ---
+artifacts/
+*.pubxml.user
+**/Properties/PublishProfiles/*.pubxml.user
+*.publishsettings
+
+# --- NuGet ---
+packages/
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+
+# --- Test & coverage ---
+TestResult*/
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage*/
+.coverage
+.coverageinfo
+CoverletOutput/
+ReportOutput/
+lcov.info
+
+# --- IDEs & analyzers ---
+.vscode/
+.idea/
+*.sln.iml
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+.Rider/
+.sonarqube/
+.scannerwork/
+
+# --- ASP.NET Core local config overrides ---
+appsettings.*.local.json
+appsettings.Local.json
+*.secrets.json
+
+# --- Environment files ---
+.env
+.env.local
+.env.*.local
+
+# --- Optional SPA (if any in client projects) ---
+**/node_modules/
+**/dist/
+**/build/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Databases (LocalDB/SQLite/etc.) ---
+*.mdf
+*.ldf
+*.ndf
+*.db
+*.sqlite
+*.db-shm
+*.db-wal
+
+# --- OS cruft ---
+.DS_Store
+Thumbs.db
+desktop.ini

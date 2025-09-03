@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Email.Web", "Sources\Email.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Email.Core", "Sources\Email.Core\Email.Core.csproj", "{4A5B22A7-7DE4-4621-9779-02CD69BD588D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Email.Client", "Sources\Email.Client\Email.Client.csproj", "{FA8CCC33-DA0B-4056-8DCD-49761BB14F68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{4A5B22A7-7DE4-4621-9779-02CD69BD588D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A5B22A7-7DE4-4621-9779-02CD69BD588D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A5B22A7-7DE4-4621-9779-02CD69BD588D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA8CCC33-DA0B-4056-8DCD-49761BB14F68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA8CCC33-DA0B-4056-8DCD-49761BB14F68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA8CCC33-DA0B-4056-8DCD-49761BB14F68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA8CCC33-DA0B-4056-8DCD-49761BB14F68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,6 +43,7 @@ Global
 		{BAFB5606-309E-45A7-BAE9-996F2C06ACF0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{56373DAD-5FF9-4513-A8A0-5516DAF00117} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{4A5B22A7-7DE4-4621-9779-02CD69BD588D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{FA8CCC33-DA0B-4056-8DCD-49761BB14F68} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67B3D304-32D7-4E44-AC0C-CF696955007B}

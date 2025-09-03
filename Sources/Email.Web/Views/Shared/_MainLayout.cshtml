@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="fa-IR" dir="rtl">
+<head>
+    @* @(await Html.PartialAsync("Partials/References/_MetaReferences")) *@
+    @await RenderSectionAsync("OriginalAddress", false)
+    <!-- S-E-O -->
+    @* @await RenderSectionAsync("Seo", false) *@
+    <title>@ViewData["Title"] - HoshRaftani</title>
+    @* @(await Html.PartialAsync("Partials/References/_HeaderReferences")) *@
+
+    @await RenderSectionAsync("MainStyles", false).ConfigureAwait(false)
+    
+    <!-- Google tag (gtag.js) -->
+</head>
+<body class="antialiased d-flex flex-column" data-aos-easing="ease-out-back"><!-- mt-3 -->
+
+
+    <div id="blazor-error-ui">
+        @* @{await Html.RenderPartialAsync("Partials/Load/_LoadView");} *@
+    </div>
+
+    <header class="fixed-top " data-aos="fade-down"><!-- fixed-top -->
+
+    </header>
+
+    <app>
+        <!-- (Render BODY) -->
+        <div class="view-wrapper">
+            <div class="view-body">
+                <!-- main-area -->
+                <main class="" role="main">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </app>
+
+    <!-- END -->
+    <footer class="mt-5 mb-5" data-aos="fade-up" >
+        <div class="font-dana">
+
+        </div>
+    </footer>
+    
+    
+    <!-- S-C-R-I-P-T -->
+    <script src="_framework/blazor.server.js"></script>
+
+    @* @(await Html.PartialAsync("Partials/References/_ScriptReferences")) *@
+
+    @await RenderSectionAsync("MainScripts", false).ConfigureAwait(false)
+</body>
+</html>

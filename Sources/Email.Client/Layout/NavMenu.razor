@@ -1,0 +1,52 @@
+﻿@inject NavigationManager Nav
+
+<style>
+    .nav-wrap {
+        padding: 12px;
+    }
+
+    .nav-section-title {
+        color: #6b7280;
+        margin: 8px 12px;
+        font-size: .85rem;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+    }
+</style>
+
+<div class="nav-wrap">
+    <MudNavMenu Dense="true">
+
+        <!-- Top -->
+        <MudText Typo="Typo.subtitle2" Class="nav-section-title">Navigation</MudText>
+        <MudNavLink Href="/dashboard" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.SpaceDashboard">
+            Dashboard
+        </MudNavLink>
+
+        <MudDivider Class="my-2" />
+
+        <!-- Compose -->
+        <MudText Typo="Typo.subtitle2" Class="nav-section-title">Compose</MudText>
+        <MudNavLink Href="/send-email" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AddCircleOutline">
+            New Email
+        </MudNavLink>
+
+        <MudDivider Class="my-2" />
+
+        <!-- System -->
+        <MudText Typo="Typo.subtitle2" Class="nav-section-title">System</MudText>
+        <!-- Optional: a simple health page that checks API /api/health and Graph config -->
+        <MudNavLink Href="/status" Icon="@Icons.Material.Filled.Insights">
+            Status
+        </MudNavLink>
+
+        <MudDivider Class="my-2" />
+
+        <!-- Help -->
+        <MudText Typo="Typo.subtitle2" Class="nav-section-title">Help</MudText>
+        <MudNavLink Href="/about" Icon="@Icons.Material.Filled.Info">
+            About
+        </MudNavLink>
+
+    </MudNavMenu>
+</div>
