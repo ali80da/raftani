@@ -16,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 
-
+    builder.Services.AddCustomCoreServices();
 
     // HSTS
     if (builder.Environment.IsProduction())

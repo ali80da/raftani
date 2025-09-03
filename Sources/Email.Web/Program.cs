@@ -14,7 +14,18 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddMudServices();
 
 
-    builder.Services.AddHttpClient();
+    var apiBase = builder.Configuration["EmailApi:BaseUrl"]
+              ?? throw new InvalidOperationException("EmailApi:BaseUrl missing.");
+
+    builder.Services.AddHttpClient("EmailApi", client =>
+    {
+        client.BaseAddress = new Uri(apiBase, UriKind.Absolute);
+    });
+
+    //builder.Services.AddHttpClient();
+
+
+    builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("EmailApi"));
 
 }
 var app = builder.Build();

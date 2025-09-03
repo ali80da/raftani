@@ -1,4 +1,5 @@
-﻿
+﻿using Email.Core.Abstractions.Email;
+using Email.Core.Services.Email;
 
 namespace Email.Server.Extensions.Containers;
 
@@ -22,6 +23,9 @@ public static class ServiceCollectionExtensions
     // Add Custom Core Service
     public static IServiceCollection AddCustomCoreServices(this IServiceCollection services)
     {
+
+        services.AddScoped<IEmailSender, EmailSender>();
+
 
 
         return services;
