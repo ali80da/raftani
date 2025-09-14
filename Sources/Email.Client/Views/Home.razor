@@ -68,8 +68,8 @@
                     Send smart emails via Gmail or Outlook with auto provider detection, multi-recipient, and live HTML preview.
                 </MudText>
                 <MudStack Row="true" Spacing="1" Class="mt-3">
-                    <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" OnClick="@GoCompose">New message</MudButton>
-                    <MudButton Color="Color.Default" Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.RemoveRedEye" OnClick="@GoCompose">Open composer</MudButton>
+                    <MudButton Color="Color.Primary" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" OnClick="@GoCompose">New message</MudButton>
+                    <MudButton Color="Color.Default" Variant="MudBlazor.Variant.Outlined" StartIcon="@Icons.Material.Filled.RemoveRedEye" OnClick="@GoCompose">Open composer</MudButton>
                 </MudStack>
             </MudStack>
         </MudPaper>
@@ -82,9 +82,9 @@
                         <MudText Typo="Typo.body2" Class="subtle">Common flows at a glance.</MudText>
 
                         <MudStack Row="true" Spacing="2" Class="mt-2">
-                            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Send" OnClick="@GoCompose">Compose HTML</MudButton>
-                            <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Upload" OnClick="@GoCompose">Upload HTML → Base64</MudButton>
-                            <MudButton Variant="Variant.Outlined" Color="Color.Default" StartIcon="@Icons.Material.Filled.GroupAdd" OnClick="@GoCompose">Multiple recipients</MudButton>
+                            <MudButton Variant="MudBlazor.Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Send" OnClick="@GoCompose">Compose HTML</MudButton>
+                            <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Upload" OnClick="@GoCompose">Upload HTML → Base64</MudButton>
+                            <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Default" StartIcon="@Icons.Material.Filled.GroupAdd" OnClick="@GoCompose">Multiple recipients</MudButton>
                         </MudStack>
 
                         <MudDivider Class="my-3" />
@@ -132,7 +132,7 @@
                                     <div class="list-bullet"><i><MudIcon Icon="@Icons.Material.Filled.MailOutline" /></i><span>Host <code>smtp.gmail.com:587</code> (STARTTLS).</span></div>
                                 </MudListItem>
                             </MudList>
-                            <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" OnClick="@GoCompose">Open composer</MudButton>
+                            <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" OnClick="@GoCompose">Open composer</MudButton>
                         </MudExpansionPanel>
 
                         <MudExpansionPanel Text="Outlook / Microsoft 365 (SMTP AUTH or Graph)">
@@ -144,7 +144,7 @@
                                     <div class="list-bullet"><i><MudIcon Icon="@Icons.Material.Filled.Cloud" /></i><span>SMTP host <code>smtp.office365.com:587</code> (STARTTLS) or Graph <code>/users/{from}/sendMail</code>.</span></div>
                                 </MudListItem>
                             </MudList>
-                            <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" OnClick="@GoCompose">Open composer</MudButton>
+                            <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" OnClick="@GoCompose">Open composer</MudButton>
                         </MudExpansionPanel>
                     </MudExpansionPanels>
                 </MudPaper>
@@ -162,8 +162,8 @@
             <MudItem xs="12" md="4">
                 <MudPaper Elevation="1" Class="card p-4 section">
                     <MudText Typo="Typo.h6">Status & guidance</MudText>
-                    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="mt-2">Gmail: use an <b>App Password</b> (or OAuth token).</MudAlert>
-                    <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Class="mt-2">Outlook: if <b>Basic SMTP</b> is disabled, configure <b>Graph</b> and the app will fallback automatically.</MudAlert>
+                    <MudAlert Severity="Severity.Info" Variant="MudBlazor.Variant.Outlined" Class="mt-2">Gmail: use an <b>App Password</b> (or OAuth token).</MudAlert>
+                    <MudAlert Severity="Severity.Warning" Variant="MudBlazor.Variant.Outlined" Class="mt-2">Outlook: if <b>Basic SMTP</b> is disabled, configure <b>Graph</b> and the app will fallback automatically.</MudAlert>
                     <MudDivider Class="my-3" />
                     <MudText Typo="Typo.subtitle2">Short checklist</MudText>
                     <MudList T="bool" Dense="true">
@@ -174,16 +174,16 @@
                     </MudList>
                     <MudDivider Class="my-3" />
                     <MudText Typo="Typo.caption" Class="muted">Navigate to composer to start sending:</MudText>
-                    <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Mail" Class="mt-2" FullWidth="true" OnClick="@GoCompose">Go to composer</MudButton>
+                    <MudButton Color="Color.Primary" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Mail" Class="mt-2" FullWidth="true" OnClick="@GoCompose">Go to composer</MudButton>
                 </MudPaper>
 
                 <MudPaper Elevation="1" Class="card p-4 section">
                     <MudText Typo="Typo.h6">Subject ideas</MudText>
                     <MudStack Row="true" Spacing="1" Class="mt-2" Wrap="Wrap.Wrap">
-                        <MudChip T="string" Variant="Variant.Outlined" Color="Color.Default">Proposal — Enterprise IT</MudChip>
-                        <MudChip T="string" Variant="Variant.Outlined" Color="Color.Default">Follow-up — Meeting Request</MudChip>
-                        <MudChip T="string" Variant="Variant.Outlined" Color="Color.Default">Quote — Hardware Integration</MudChip>
-                        <MudChip T="string" Variant="Variant.Outlined" Color="Color.Default">Urgent — Action Required</MudChip>
+                        <MudChip T="string" Variant="MudBlazor.Variant.Outlined" Color="Color.Default">Proposal — Enterprise IT</MudChip>
+                        <MudChip T="string" Variant="MudBlazor.Variant.Outlined" Color="Color.Default">Follow-up — Meeting Request</MudChip>
+                        <MudChip T="string" Variant="MudBlazor.Variant.Outlined" Color="Color.Default">Quote — Hardware Integration</MudChip>
+                        <MudChip T="string" Variant="MudBlazor.Variant.Outlined" Color="Color.Default">Urgent — Action Required</MudChip>
                     </MudStack>
                     <MudText Typo="Typo.caption" Class="muted mt-2">Pick a subject in the composer.</MudText>
                 </MudPaper>

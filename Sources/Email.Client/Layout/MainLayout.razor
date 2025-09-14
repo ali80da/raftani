@@ -1,6 +1,38 @@
 ﻿@inherits LayoutComponentBase
+<RadzenComponents />
 
-<MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
+<RadzenLayout Style="grid-template-columns: auto 1fr auto; grid-template-areas: 'rz-header rz-header rz-header' 'rz-sidebar rz-body rz-right-sidebar'">
+    <RadzenHeader>
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" AlignItems="Radzen.AlignItems.Center" Gap="0">
+            <RadzenSidebarToggle Click="@(() => leftSidebarExpanded = !leftSidebarExpanded)" />
+            <RadzenLabel Text="Header" />
+        </RadzenStack>
+    </RadzenHeader>
+    <RadzenSidebar @bind-Expanded="@leftSidebarExpanded">
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Home" Icon="home" />
+            <RadzenPanelMenuItem Text="Users" Icon="account_box" />
+        </RadzenPanelMenu>
+        <div class="rz-p-4">
+            Left Sidebar
+        </div>
+    </RadzenSidebar>
+    <RadzenBody>
+        <div class="rz-p-4">
+            @Body
+        </div>
+        <div class="rz-p-4">
+            <RadzenButton Text="Toggle right Sidebar" Click="@(() => rightSidebarExpanded = !rightSidebarExpanded)" />
+        </div>
+    </RadzenBody>
+    <RadzenSidebar @bind-Expanded="@rightSidebarExpanded" Style="width: 300px; grid-area: rz-right-sidebar">
+        <div class="rz-p-4">
+            Right Sidebar
+        </div>
+    </RadzenSidebar>
+</RadzenLayout>
+
+@* <MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider MaxDisplayedSnackbars="5" PreventDuplicates="true" />
@@ -19,7 +51,7 @@
     <MudMainContent Class="pt-16 pa-4">
         @Body
     </MudMainContent>
-</MudLayout>
+</MudLayout> *@
 
 
 <div id="blazor-error-ui" data-nosnippet>
@@ -29,6 +61,11 @@
 </div>
 
 @code {
+
+    bool leftSidebarExpanded = true;
+    bool rightSidebarExpanded = false;
+
+
     private bool _drawerOpen = true;
     private bool _isDarkMode = false;
     private MudTheme? _theme = null;

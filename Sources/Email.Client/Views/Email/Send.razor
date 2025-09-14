@@ -115,18 +115,18 @@
                     <MudText Typo="Typo.body2" Class="subtle mb-3">Choose provider and credentials. Defaults to <b>auto</b>.</MudText>
 
                     <MudStack Spacing="2">
-                        <MudSelect T="string" Label="Provider" @bind-Value="_provider" Variant="Variant.Outlined" Dense="true">
+                        <MudSelect T="string" Label="Provider" @bind-Value="_provider" Variant="MudBlazor.Variant.Outlined" Dense="true">
                             <MudSelectItem Value="@("auto")">auto (smart)</MudSelectItem>
                             <MudSelectItem Value="@("gmail")">gmail</MudSelectItem>
                             <MudSelectItem Value="@("outlook")">outlook</MudSelectItem>
                             <MudSelectItem Value="@("custom")">custom (manual SMTP)</MudSelectItem>
                         </MudSelect>
 
-                        <MudTextField T="string" @bind-Value="_senderEmail" Label="From" Variant="Variant.Outlined" Dense="true" Required="true" />
+                        <MudTextField T="string" @bind-Value="_senderEmail" Label="From" Variant="MudBlazor.Variant.Outlined" Dense="true" Required="true" />
 
                         <MudTextField T="string" @bind-Value="_senderPassword"
                                       Label="Password / App Password"
-                                      Variant="Variant.Outlined" Dense="true"
+                                      Variant="MudBlazor.Variant.Outlined" Dense="true"
                                       InputType="InputType.Password"
                                       HelperText="Gmail: App Password • Outlook: password (if SMTP basic is enabled)" />
 
@@ -134,8 +134,8 @@
                         {
                             <MudDivider Class="my-2" />
                             <MudText Typo="Typo.subtitle2">Custom SMTP</MudText>
-                            <MudTextField T="string" @bind-Value="_smtpHost" Label="Host" Variant="Variant.Outlined" Dense="true" />
-                            <MudTextField T="int?" @bind-Value="_smtpPort" Label="Port" Variant="Variant.Outlined" Dense="true" />
+                            <MudTextField T="string" @bind-Value="_smtpHost" Label="Host" Variant="MudBlazor.Variant.Outlined" Dense="true" />
+                            <MudTextField T="int?" @bind-Value="_smtpPort" Label="Port" Variant="MudBlazor.Variant.Outlined" Dense="true" />
                             <MudSwitch T="bool" @bind-Checked="_smtpEnableSsl" Color="Color.Primary">Enable SSL (STARTTLS/SSL)</MudSwitch>
                             <MudText Typo="Typo.caption" Class="subtle">All three fields are required for custom.</MudText>
                         }
@@ -147,8 +147,8 @@
             <MudItem xs="12" md="8">
                 <MudPaper Elevation="1" Class="content-paper">
                     <div class="toolbar">
-                        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1">
-                            <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="SendAsync" Disabled="_busy" Class="mr-2">
+                        <MudStack Row="true" AlignItems="MudBlazor.AlignItems.Center" Spacing="1">
+                            <MudButton Color="Color.Primary" Variant="MudBlazor.Variant.Filled" OnClick="SendAsync" Disabled="_busy" Class="mr-2">
                                 @(_busy ? "Sending…" : "Send")
                             </MudButton>
                             <MudIconButton Icon="@Icons.Material.Filled.DeleteOutline" Disabled="_busy" Title="Discard" OnClick="ResetForm" />
@@ -165,15 +165,15 @@
                             <div class="field-row">
                                 <div class="field-label">To</div>
                                 <div style="flex:1">
-                                    <MudTextField T="string" @bind-Value="_toText" Placeholder="Comma / semicolon / newline" Variant="Variant.Outlined" Lines="1" />
+                                    <MudTextField T="string" @bind-Value="_toText" Placeholder="Comma / semicolon / newline" Variant="MudBlazor.Variant.Outlined" Lines="1" />
                                     <div class="chips-preview">
                                         @foreach (var r in SplitEmails(_toText))
                                         {
-                                            <MudChip T="string" Size="Size.Small" Class="mr-1 mb-1" Color="Color.Default" Variant="Variant.Outlined">@r</MudChip>
+                                            <MudChip T="string" Size="Size.Small" Class="mr-1 mb-1" Color="Color.Default" Variant="MudBlazor.Variant.Outlined">@r</MudChip>
                                         }
                                     </div>
                                 </div>
-                                <MudButton Variant="Variant.Outlined" Color="Color.Default" Size="Size.Small" OnClick="@(() => _showCcBcc = !_showCcBcc)">
+                                <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Default" Size="Size.Small" OnClick="@(() => _showCcBcc = !_showCcBcc)">
                                     @(_showCcBcc ? "Hide Cc/Bcc" : "Show Cc/Bcc")
                                 </MudButton>
                             </div>
@@ -183,11 +183,11 @@
                                 <div class="field-row">
                                     <div class="field-label">Cc</div>
                                     <div style="flex:1">
-                                        <MudTextField T="string" @bind-Value="_ccText" Placeholder="Add Cc" Variant="Variant.Outlined" Lines="1" />
+                                        <MudTextField T="string" @bind-Value="_ccText" Placeholder="Add Cc" Variant="MudBlazor.Variant.Outlined" Lines="1" />
                                         <div class="chips-preview">
                                             @foreach (var r in SplitEmails(_ccText))
                                             {
-                                                <MudChip T="string" Size="Size.Small" Class="mr-1 mb-1" Color="Color.Default" Variant="Variant.Outlined">@r</MudChip>
+                                                <MudChip T="string" Size="Size.Small" Class="mr-1 mb-1" Color="Color.Default" Variant="MudBlazor.Variant.Outlined">@r</MudChip>
                                             }
                                         </div>
                                     </div>
@@ -195,11 +195,11 @@
                                 <div class="field-row">
                                     <div class="field-label">Bcc</div>
                                     <div style="flex:1">
-                                        <MudTextField T="string" @bind-Value="_bccText" Placeholder="Add Bcc" Variant="Variant.Outlined" Lines="1" />
+                                        <MudTextField T="string" @bind-Value="_bccText" Placeholder="Add Bcc" Variant="MudBlazor.Variant.Outlined" Lines="1" />
                                         <div class="chips-preview">
                                             @foreach (var r in SplitEmails(_bccText))
                                             {
-                                                <MudChip T="string" Size="Size.Small" Class="mr-1 mb-1" Color="Color.Default" Variant="Variant.Outlined">@r</MudChip>
+                                                <MudChip T="string" Size="Size.Small" Class="mr-1 mb-1" Color="Color.Default" Variant="MudBlazor.Variant.Outlined">@r</MudChip>
                                             }
                                         </div>
                                     </div>
@@ -209,7 +209,7 @@
                             <div class="field-row">
                                 <div class="field-label">Reply-To</div>
                                 <div style="flex:1">
-                                    <MudTextField T="string" @bind-Value="_replyTo" Placeholder="Optional" Variant="Variant.Outlined" Lines="1" />
+                                    <MudTextField T="string" @bind-Value="_replyTo" Placeholder="Optional" Variant="MudBlazor.Variant.Outlined" Lines="1" />
                                 </div>
                             </div>
                         </div>
@@ -220,7 +220,7 @@
                             <div class="field-row">
                                 <div class="field-label">Subject</div>
                                 <div style="flex:1">
-                                    <MudTextField T="string" @bind-Value="_subject" Placeholder="Add a subject" Variant="Variant.Outlined" Lines="1" />
+                                    <MudTextField T="string" @bind-Value="_subject" Placeholder="Add a subject" Variant="MudBlazor.Variant.Outlined" Lines="1" />
                                 </div>
                             </div>
                         </div>
@@ -229,7 +229,7 @@
                         <div class="section">
                             <MudTabs Rounded="true" Elevation="0">
                                 <MudTabPanel Text="HTML">
-                                    <MudTextField T="string" @bind-Value="_htmlBody" Immediate="true" Placeholder="Paste your HTML here" Variant="Variant.Outlined" Lines="16" MaxLines="36" />
+                                    <MudTextField T="string" @bind-Value="_htmlBody" Immediate="true" Placeholder="Paste your HTML here" Variant="MudBlazor.Variant.Outlined" Lines="16" MaxLines="36" />
                                     <MudText Class="subtle mt-1">Tip: For long content, use the “Upload HTML → Base64” tab.</MudText>
                                 </MudTabPanel>
 
@@ -238,7 +238,7 @@
                                         <InputFile OnChange="OnHtmlFileSelected" accept=".html,.htm,.txt" />
                                         @if (!string.IsNullOrWhiteSpace(_htmlBodyBase64))
                                         {
-                                            <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">
+                                            <MudAlert Severity="Severity.Info" Variant="MudBlazor.Variant.Outlined">
                                                 HTML file loaded and converted to Base64 (length: @_htmlBodyBase64.Length chars)
                                             </MudAlert>
                                         }
@@ -248,12 +248,12 @@
                                 <MudTabPanel Text="Preview">
                                     @if (string.IsNullOrWhiteSpace(PreviewHtml))
                                     {
-                                        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">Provide HTML to preview.</MudAlert>
+                                        <MudAlert Severity="Severity.Info" Variant="MudBlazor.Variant.Outlined">Provide HTML to preview.</MudAlert>
                                     }
                                     else
                                     {
-                                        <MudStack Row="true" AlignItems="AlignItems.Center" Class="mb-2">
-                                            <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="OpenPreviewInNewTab">Open in new tab</MudButton>
+                                        <MudStack Row="true" AlignItems="MudBlazor.AlignItems.Center" Class="mb-2">
+                                            <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="OpenPreviewInNewTab">Open in new tab</MudButton>
                                             <MudText Class="subtle ml-2">Live preview below</MudText>
                                         </MudStack>
                                         <iframe class="preview-frame" srcdoc="@PreviewHtml"></iframe>

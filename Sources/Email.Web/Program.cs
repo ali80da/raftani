@@ -2,17 +2,19 @@
 
 using Email.Web.Components;
 using MudBlazor.Services;
+using Radzen;
 
 // Ensure the required namespace for 'MapStaticAssets' is included
 
 var builder = WebApplication.CreateBuilder(args);
 {
 
-    builder.Services.AddRazorComponents().AddInteractiveServerComponents().AddInteractiveWebAssemblyComponents();
+    builder.Services.AddRazorComponents().AddInteractiveServerComponents()
+        .AddHubOptions(options => options.MaximumReceiveMessageSize = 10 * 1024 * 1024).AddInteractiveWebAssemblyComponents();
     builder.Services.AddControllersWithViews();
 
     builder.Services.AddMudServices();
-
+    builder.Services.AddRadzenComponents();
 
     var apiBase = builder.Configuration["EmailApi:BaseUrl"]
               ?? throw new InvalidOperationException("EmailApi:BaseUrl missing.");
